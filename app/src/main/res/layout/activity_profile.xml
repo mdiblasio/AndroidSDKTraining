@@ -53,4 +53,11 @@
         android:id="@+id/requestAdButton"
         android:onClick="requestAd"/>
 
+    <Button
+        android:text="Request Native Ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/requestNativeAd"
+        android:onClick="requestNativeAd"/>
+
 </LinearLayout>
