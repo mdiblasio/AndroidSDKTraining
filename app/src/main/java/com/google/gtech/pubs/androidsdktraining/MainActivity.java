@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
      * Method to populate text views in profile layout and create
      * and attach and ImageView view object to the 'pictureFrame'
      * FrameLayout.
-     * Called when button is clicked from profile layout.
+     * Called when button is clicked.
      */
     void populateViews(View v) {
         // set text from defined strings
