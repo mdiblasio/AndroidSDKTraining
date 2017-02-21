@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     TextView name, title, office;
     FrameLayout pictureFrame;
     String adUnitId = "/6076/sdktraining/display";
+    PublisherAdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
      */
     void requestAd(View v) {
         // create [Publisher]AdView object
-        PublisherAdView adView = new PublisherAdView(this);
+        adView = new PublisherAdView(this);
         // set size to 300x250 (regular rectangle)
         adView.setAdSizes(AdSize.MEDIUM_RECTANGLE);
         // set ad unit
@@ -79,10 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 .addTestDevice("5C9BB3E9937DE1124E4DA61BA45CE678")
                 .build();
 
-        // remove an views in our pictureFrame and replace with our
-        // ad view object
-        pictureFrame.removeAllViews();
-        pictureFrame.addView(adView);
+        // set a custom ad listener to handle the onAdLoaded event
+        adView.setAdListener(new CustomAdListener());
 
         // request the ad by passing the ad request object
         adView.loadAd(adRequest);
@@ -91,4 +91,31 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Ad requested", Toast
                 .LENGTH_SHORT).show();
     }
+
+    /**
+     * Custom ad listener class intended to handle onAdLoaded event.
+     */
+    class CustomAdListener extends AdListener {
+
+        /**
+         * callback method called when ad is loaded
+         */
+        @Override
+        public void onAdLoaded() {
+            super.onAdLoaded();
+
+            // remove an views in our pictureFrame and replace with our
+            // ad view object
+            pictureFrame.removeAllViews();
+            pictureFrame.addView(adView);
+
+            // create toast notification
+            Toast.makeText(getApplicationContext(), "Ad loaded", Toast
+                    .LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
 }
