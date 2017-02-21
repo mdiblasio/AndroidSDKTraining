@@ -8,11 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
+
 public class MainActivity extends AppCompatActivity {
 
     // global variables for view objects in profile layout
     TextView name, title, office;
     FrameLayout pictureFrame;
+    String adUnitId = "/6076/sdktraining/display";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,44 @@ public class MainActivity extends AppCompatActivity {
 
         // create toast notification
         Toast.makeText(this, "Profile populated", Toast
+                .LENGTH_SHORT).show();
+    }
+
+    /**
+     * Method to create AdView object, request and display ad in
+     * the picture frame. This method should be called from a
+     * ButtonView in your profile layout.
+     * @param v view object passed from ButtonView
+     */
+    void requestAd(View v) {
+        // create [Publisher]AdView object
+        PublisherAdView adView = new PublisherAdView(this);
+        // set size to 300x250 (regular rectangle)
+        adView.setAdSizes(AdSize.MEDIUM_RECTANGLE);
+        // set ad unit
+        adView.setAdUnitId(adUnitId);
+        // set background color
+        adView.setBackgroundColor(getResources().getColor(R.color
+                .adBackground));
+
+        // create [Publisher]AdRequest object using the Publsher
+        // Builder() helper method. set any custom targeting
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
+                .addCustomTargeting("org", "gTech")
+                .setGender(AdRequest.GENDER_MALE)
+                .addTestDevice("5C9BB3E9937DE1124E4DA61BA45CE678")
+                .build();
+
+        // remove an views in our pictureFrame and replace with our
+        // ad view object
+        pictureFrame.removeAllViews();
+        pictureFrame.addView(adView);
+
+        // request the ad by passing the ad request object
+        adView.loadAd(adRequest);
+
+        // create toast notification
+        Toast.makeText(this, "Ad requested", Toast
                 .LENGTH_SHORT).show();
     }
 }

@@ -46,4 +46,11 @@
         android:id="@+id/profileButton"
         android:onClick="populateViews"/>
 
+    <Button
+        android:text="Request Ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/requestAdButton"
+        android:onClick="requestAd"/>
+
 </LinearLayout>
