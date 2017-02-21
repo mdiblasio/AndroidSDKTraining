@@ -39,4 +39,11 @@
         android:textAlignment="center"
         android:textStyle="normal|italic"/>
 
+    <Button
+        android:text="Load Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profileButton"
+        android:onClick="populateViews"/>
+
 </LinearLayout>
