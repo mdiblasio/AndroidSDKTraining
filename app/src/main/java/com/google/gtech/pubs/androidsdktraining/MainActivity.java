@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
      */
     void populateViews(View v) {
         // set text from defined strings
-        name.setText(R.string.name);
-        title.setText(R.string.title);
-        office.setText(R.string.office);
+        name.setText("John Smith");
+        title.setText("Technical Account Manager");
+        office.setText("Mountain View");
 
         // create image view & attach to pictureFrame
         ImageView profilePicture = new ImageView(this);
