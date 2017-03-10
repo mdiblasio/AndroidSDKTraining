@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">gTech Pubs Android Training</string>
-    <string name="name">John Smith</string>
-    <string name="office">Mountain View</string>
-    <string name="title">Technical Account Manager</string>
 </resources>
