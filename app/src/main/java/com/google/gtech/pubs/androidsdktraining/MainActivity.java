@@ -8,19 +8,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.google.android.gms.ads.formats.NativeCustomTemplateAd;
 
 public class MainActivity extends AppCompatActivity {
 
     // global variables for view objects in profile layout
     TextView name, title, office;
     FrameLayout pictureFrame;
-    String adUnitId = "/6076/sdktraining/display";
-    PublisherAdView adView;
+    String nativeAdUnitId = "/6076/sdktraining/nativead";
+    String nativeTemplateId = "10115082";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +65,13 @@ public class MainActivity extends AppCompatActivity {
      */
     void requestAd(View v) {
         // create [Publisher]AdView object
-        adView = new PublisherAdView(this);
+        PublisherAdView adView = new PublisherAdView(this);
         // set size to 300x250 (regular rectangle)
         adView.setAdSizes(AdSize.MEDIUM_RECTANGLE);
         // set ad unit
-        adView.setAdUnitId(adUnitId);
+        adView.setAdUnitId("/6076/sdktraining/display");
         // set background color
-        adView.setBackgroundColor(getResources().getColor(R.color
-                .adBackground));
+        adView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
 
         // create [Publisher]AdRequest object using the Publsher
         // Builder() helper method. set any custom targeting
@@ -81,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 .addTestDevice("5C9BB3E9937DE1124E4DA61BA45CE678")
                 .build();
 
-        // set a custom ad listener to handle the onAdLoaded event
-        adView.setAdListener(new CustomAdListener());
+        // remove an views in our pictureFrame and replace with our
+        // ad view object
+        pictureFrame.removeAllViews();
+        pictureFrame.addView(adView);
 
         // request the ad by passing the ad request object
         adView.loadAd(adRequest);
@@ -93,29 +95,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Custom ad listener class intended to handle onAdLoaded event.
+     * Method to request native ad. Called from button in profile
+     * layout. An AdLoader object is required (instead of AdView
+     * object). Use the Builder() helper method and pass in the
+     * native ad unit ID, the template ID and an instance of your
+     * CustomNativeAdListener class.
+     * @param v
      */
-    class CustomAdListener extends AdListener {
+    void requestNativeAd(View v) {
+        // create an AdLoader object using the builder help
+        AdLoader adLoader = new AdLoader.Builder(this, nativeAdUnitId)
+                .forCustomTemplateAd(nativeTemplateId, new
+                        NativeAdLoadedListener(), null).build();
 
-        /**
-         * callback method called when ad is loaded
-         */
-        @Override
-        public void onAdLoaded() {
-            super.onAdLoaded();
+        // create ad request
+        PublisherAdRequest adRequest = new PublisherAdRequest
+                .Builder().build();
 
-            // remove an views in our pictureFrame and replace with our
-            // ad view object
-            pictureFrame.removeAllViews();
-            pictureFrame.addView(adView);
-
-            // create toast notification
-            Toast.makeText(getApplicationContext(), "Ad loaded", Toast
-                    .LENGTH_SHORT).show();
-        }
+        // load ad
+        adLoader.loadAd(adRequest);
     }
 
+    /**
+     * CustomNativeAdListener class used to handle custom template
+     * ads.
+     */
+    class NativeAdLoadedListener implements NativeCustomTemplateAd
+            .OnCustomTemplateAdLoadedListener {
 
+        @Override
+        public void onCustomTemplateAdLoaded(NativeCustomTemplateAd nativeAd) {
+            // set the text of our view objects by retrieving the
+            // appropriate values from the native ad object
+            name.setText(nativeAd.getText("Name"));
+            title.setText(nativeAd.getText("Title"));
+            office.setText(nativeAd.getText("Office"));
 
+            // once again, create an ImageView object to add to the
+            // picture frame, this time using the image from the
+            // native ad object
+            ImageView profilePicture = new ImageView(getApplicationContext());
+            profilePicture.setImageDrawable(nativeAd.getImage("Picture").getDrawable());
+
+            pictureFrame.removeAllViews();
+            pictureFrame.addView(profilePicture);
+
+            // don't forget to record the impression!
+            nativeAd.recordImpression();
+
+            // create toast notification
+            Toast.makeText(getApplicationContext(), "Native Ad loaded", Toast
+                    .LENGTH_SHORT).show();
+
+        }
+    }
 
 }
