@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addCustomTargeting("org", "gTech")
                 .setGender(AdRequest.GENDER_MALE)
+                .addTestDevice("5C9BB3E9937DE1124E4DA61BA45CE678")
                 .build();
 
         // remove an views in our pictureFrame and replace with our
