@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // set ad unit
         adView.setAdUnitId("/6076/sdktraining/display");
         // set background color
-        adView.setBackgroundColor(getResources().getColor(R.color
-                .adBackground));
+        adView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
 
         // create [Publisher]AdRequest object using the Publsher
         // Builder() helper method. set any custom targeting
