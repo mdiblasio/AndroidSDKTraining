@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
      * ads.
      */
     class NativeAdLoadedListener implements NativeCustomTemplateAd
-                                                    .OnCustomTemplateAdLoadedListener {
+            .OnCustomTemplateAdLoadedListener {
 
         @Override
         public void onCustomTemplateAdLoaded(NativeCustomTemplateAd nativeAd) {
