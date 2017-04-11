@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     // global variables for view objects in profile layout
     TextView name, title, office;
     FrameLayout pictureFrame;
-    String adUnitId = "/6076/sdktraining/display";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         // set size to 300x250 (regular rectangle)
         adView.setAdSizes(AdSize.MEDIUM_RECTANGLE);
         // set ad unit
-        adView.setAdUnitId(adUnitId);
+        adView.setAdUnitId("/6076/sdktraining/display");
         // set background color
         adView.setBackgroundColor(getResources().getColor(R.color
                 .adBackground));
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addCustomTargeting("org", "gTech")
                 .setGender(AdRequest.GENDER_MALE)
-                .addTestDevice("5C9BB3E9937DE1124E4DA61BA45CE678")
                 .build();
 
         // remove an views in our pictureFrame and replace with our
